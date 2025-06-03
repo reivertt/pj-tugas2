@@ -28,7 +28,7 @@ class ProcessTheClient(threading.Thread):
 						return
 					elif message == "TIME":
 						now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-						response = f"JAM {now}\r\n\r\n"
+						response = f"JAM {now}\r\n"
 						self.connection.sendall(response.encode('utf-8'))
 				
 		except Exception as e:

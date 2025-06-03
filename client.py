@@ -14,7 +14,7 @@ def send_data():
         # Send data
         message = "TIME QUIT"
         logging.warning(f"[CLIENT] sending {message}")
-        message += "\r\n\r\n"
+        message += "\r\n"
         sock.sendall(message.encode())
         full_data = []
         while True:

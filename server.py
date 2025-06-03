@@ -5,7 +5,7 @@ import logging
 from datetime import datetime
 
 HOST = '0.0.0.0'
-PORT = 45000
+PORT = 56000
 
 class ProcessTheClient(threading.Thread):
 	def __init__(self,connection,address):
@@ -20,15 +20,16 @@ class ProcessTheClient(threading.Thread):
 				if not data:
 					break
 				
-				decoded = data.decode('utf-8').strip()
-				logging.warning(f"Received from {self.address}: {decoded}")
-				if decoded == "QUIT":
-					logging.warning(f"Client {self.address} requested to quit")
-					break
-				elif decoded == "TIME":
-					now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-					response = f"JAM {now}\r\n"
-					self.connection.sendall(response.encode('utf-8'))
+				messages = data.decode('utf-8').strip().split(" ")
+				for message in messages:
+					logging.warning(f"Received from {self.address}: {message}")
+					if message == "QUIT":
+						logging.warning(f"Client {self.address} requested to quit")
+						return
+					elif message == "TIME":
+						now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+						response = f"JAM {now}\r\n\r\n"
+						self.connection.sendall(response.encode('utf-8'))
 				
 		except Exception as e:
 			logging.error(f"Error handling client {self.address}: {e}")

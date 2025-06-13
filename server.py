@@ -5,7 +5,7 @@ import logging
 from datetime import datetime
 
 HOST = '0.0.0.0'
-PORT = 56000
+PORT = 45000
 
 class ProcessTheClient(threading.Thread):
 	def __init__(self,connection,address):
@@ -30,7 +30,8 @@ class ProcessTheClient(threading.Thread):
 						now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 						response = f"JAM {now}\r\n"
 						self.connection.sendall(response.encode('utf-8'))
-				
+		
+		# Exception Handling
 		except Exception as e:
 			logging.error(f"Error handling client {self.address}: {e}")
 		finally:
